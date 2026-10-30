@@ -1,0 +1,29 @@
+[
+  {
+    "email": "admin@example.com",
+    "username": "admin",
+    "first_name": "Ada",
+    "last_name": "Admin",
+    "role": "admin"
+  },
+  {
+    "email": "juan@example.com",
+    "username": "juan",
+    "first_name": "Juan",
+    "last_name": "Dela Cruz",
+    "birthdate": "1995-06-12"
+  },
+  {
+    "email": "maria@example.com",
+    "username": "maria",
+    "first_name": "Maria",
+    "last_name": "Santos",
+    "birthdate": "1998-02-03"
+  },
+  {
+    "email": "kenji@example.com",
+    "username": "kenji",
+    "first_name": "Kenji",
+    "last_name": "Tanaka"
+  }
+]
