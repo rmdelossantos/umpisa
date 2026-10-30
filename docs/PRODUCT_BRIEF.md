@@ -6,7 +6,7 @@
 - Logout
 
 # Public API to use
-https://docs.api.jikan.moe/
+https://docs.api.jikan.moe/ (originally; the app now uses AniList, see docs/ANILIST.md)
 
 # Usecase
 - This app is a better version of MyAnimeList
