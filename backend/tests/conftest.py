@@ -106,6 +106,12 @@ class FakeCatalog:
         items = [i for (t, _), i in self.titles.items() if t == media_type and q.lower() in i.title.lower()]
         return CatalogPage(items=items, page=page, has_next_page=False)
 
+    def popular(self, media_type, page=1):
+        if self.down:
+            raise CatalogUnavailable("down")
+        items = [i for (t, _), i in self.titles.items() if t == media_type]
+        return CatalogPage(items=items, page=page, has_next_page=False)
+
     def get(self, media_type, anilist_id):
         if self.down:
             raise CatalogUnavailable("down")

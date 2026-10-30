@@ -32,6 +32,23 @@ def test_search_when_catalog_is_down(user_client, catalog):
     assert "isn't responding" in res.json()["detail"]
 
 
+def test_popular_lists_titles_by_type(user_client, catalog):
+    catalog.add()
+    catalog.add(media_type="manga", anilist_id=30002, title="Berserk", kind="Manga", units=None, year=1989)
+
+    res = user_client.get("/api/v1/catalog/popular?type=manga")
+    assert res.status_code == 200
+    assert [i["title"] for i in res.json()["items"]] == ["Berserk"]
+    assert user_client.get("/api/v1/catalog/popular?type=manga&page=21").status_code == 422
+
+
+def test_popular_requires_auth_and_reports_outage(client, user_client, catalog):
+    catalog.down = True
+    assert user_client.get("/api/v1/catalog/popular?type=anime").status_code == 503
+    user_client.post("/api/v1/auth/logout")
+    assert client.get("/api/v1/catalog/popular?type=anime").status_code == 401
+
+
 def test_normalize_prefers_english_title_and_labels_format():
     raw = {
         "id": 154587,
