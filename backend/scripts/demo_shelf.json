@@ -1,0 +1,82 @@
+[
+  {
+    "media_type": "anime",
+    "anilist_id": 154587,
+    "title": "Frieren: Beyond Journey’s End",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx154587-qQTzQnEJJ3oB.jpg",
+    "kind": "TV",
+    "units": 28,
+    "year": 2023,
+    "status": "in_progress"
+  },
+  {
+    "media_type": "anime",
+    "anilist_id": 21507,
+    "title": "Mob Psycho 100",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx21507-6YUSbh2m0N1p.jpg",
+    "kind": "TV",
+    "units": 12,
+    "year": 2016,
+    "status": "done"
+  },
+  {
+    "media_type": "anime",
+    "anilist_id": 20607,
+    "title": "Ping Pong the Animation",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx20607-fIOxVISIl0HY.jpg",
+    "kind": "TV",
+    "units": 11,
+    "year": 2014,
+    "status": "done"
+  },
+  {
+    "media_type": "anime",
+    "anilist_id": 5114,
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx5114-nSWCgQlmOMtj.jpg",
+    "kind": "TV",
+    "units": 64,
+    "year": 2009,
+    "status": "planning"
+  },
+  {
+    "media_type": "anime",
+    "anilist_id": 1,
+    "title": "Cowboy Bebop",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-GCsPm7waJ4kS.png",
+    "kind": "TV",
+    "units": 26,
+    "year": 1998,
+    "status": "planning"
+  },
+  {
+    "media_type": "manga",
+    "anilist_id": 30002,
+    "title": "Berserk",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30002-Cul4OeN7bYtn.jpg",
+    "kind": "Manga",
+    "units": null,
+    "year": 1989,
+    "status": "in_progress"
+  },
+  {
+    "media_type": "manga",
+    "anilist_id": 30656,
+    "title": "Vagabond",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30656-9mW113O7rDnA.png",
+    "kind": "Manga",
+    "units": null,
+    "year": 1998,
+    "status": "planning"
+  },
+  {
+    "media_type": "manga",
+    "anilist_id": 30104,
+    "title": "Yotsuba&!",
+    "image_url": "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx30104-sUVzNlTWZ5cu.jpg",
+    "kind": "Manga",
+    "units": null,
+    "year": 2003,
+    "status": "done"
+  }
+]

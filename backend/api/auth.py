@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session
 
 from auth.dependencies import ACTIVE, COOKIE_NAME, get_current_user
-from auth.schemas import LoginRequest
+from auth.schemas import DemoInfo, LoginRequest
 from auth.security import create_access_token
 from config import settings
 from database import get_db
@@ -67,3 +67,18 @@ def logout(response: Response):
 @router.get("/me", response_model=UserRead)
 def me(user: User = Depends(get_current_user)):
     return user
+
+
+# Demo accounts the login page advertises: one admin and one regular user from the seed file
+DEMO_ACCOUNTS = [
+    {"email": "admin@example.com", "role": "admin"},
+    {"email": "juan@example.com", "role": "user"},
+]
+
+
+@router.get("/demo", response_model=DemoInfo)
+def demo():
+    """Tells the login page whether demo accounts were seeded, and how to sign in to them."""
+    if not settings.seed_demo:
+        return DemoInfo(enabled=False)
+    return DemoInfo(enabled=True, password=settings.demo_password, accounts=DEMO_ACCOUNTS)

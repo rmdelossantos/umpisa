@@ -128,3 +128,16 @@ def test_logout_clears_cookie(logged_in_client):
     assert cookie.startswith(f"{COOKIE_NAME}=")
     assert "max-age=0" in cookie
     assert logged_in_client.get("/api/v1/auth/me").status_code == 401
+
+
+def test_demo_info_follows_seed_flag(client, monkeypatch):
+    from config import settings
+
+    monkeypatch.setattr(settings, "seed_demo", False)
+    assert client.get("/api/v1/auth/demo").json() == {"enabled": False, "password": None, "accounts": []}
+
+    monkeypatch.setattr(settings, "seed_demo", True)
+    body = client.get("/api/v1/auth/demo").json()
+    assert body["enabled"] is True
+    assert body["password"] == settings.demo_password
+    assert [a["email"] for a in body["accounts"]] == ["admin@example.com", "juan@example.com"]
