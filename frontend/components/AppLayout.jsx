@@ -5,7 +5,8 @@ import Brand from './Brand.jsx'
 import { LogoutIcon } from './Icons.jsx'
 
 const TABS = [
-  { to: '/', label: 'Home', end: true },
+  { to: '/', label: 'Shelf', end: true },
+  { to: '/search', label: 'Search' },
   { to: '/profile', label: 'My account' },
   { to: '/users', label: 'Users', adminOnly: true },
 ]

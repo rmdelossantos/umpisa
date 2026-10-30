@@ -26,4 +26,10 @@ export const api = {
   createUser: (data) => request('/users', { method: 'POST', body: JSON.stringify(data) }),
   updateUser: (id, data) => request(`/users/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
   deleteUser: (id) => request(`/users/${id}`, { method: 'DELETE' }),
+  searchCatalog: (type, q, page = 1) =>
+    request(`/catalog/search?type=${type}&q=${encodeURIComponent(q)}&page=${page}`),
+  listCollection: () => request('/collection'),
+  addToCollection: (data) => request('/collection', { method: 'POST', body: JSON.stringify(data) }),
+  updateEntry: (id, status) => request(`/collection/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  removeEntry: (id) => request(`/collection/${id}`, { method: 'DELETE' }),
 }

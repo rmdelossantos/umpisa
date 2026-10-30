@@ -600,6 +600,295 @@ select.input {
   color: var(--muted);
 }
 
+/* ---------- title shelf ---------- */
+.title-spine {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* A selected volume is pulled half out of the shelf */
+.title-spine:hover {
+  transform: translateY(-6px);
+}
+.title-spine[aria-pressed='true'] {
+  transform: translateY(-16px);
+}
+/* The selected volume's slot on the ledge turns cobalt, like the active tab's underline */
+.shelf li {
+  position: relative;
+}
+.shelf li:has(> .title-spine[aria-pressed='true'])::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 8px;
+  background: var(--cobalt);
+}
+.shelf-empty {
+  padding: 1.25rem 0 0.25rem;
+  color: var(--muted);
+}
+.empty-library {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+.empty-library .shelf {
+  margin-bottom: 1rem;
+}
+.empty-library h2 {
+  font-size: 1.6rem;
+}
+.empty-library p {
+  max-width: 52ch;
+  color: var(--muted);
+}
+.title-detail {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding: 1.5rem 3rem 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+/* A cap in the volume's ink over the cover, tying the strip to the spine pulled from the shelf */
+.title-detail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 6px;
+  background: var(--tone, var(--ink));
+}
+.title-detail h3 {
+  margin: 0 0 0.2rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.title-detail .alert {
+  margin-top: 0.75rem;
+}
+.title-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+.confirm-inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+.title-detail-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 0;
+}
+.cover {
+  display: block;
+  width: 120px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--paper-2);
+}
+.cover-sm {
+  width: 56px;
+}
+.cover-blank {
+  background: repeating-linear-gradient(135deg, var(--spine-off) 0 6px, transparent 6px 9px), var(--paper-2);
+}
+/* Status menu: a custom listbox, since a native <select> popup can't take the shelf's styling */
+.status-menu {
+  position: relative;
+  display: inline-block;
+}
+.status-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: auto;
+  min-width: 190px;
+  text-align: left;
+  cursor: pointer;
+}
+.status-trigger svg {
+  flex: none;
+  color: var(--muted);
+  transition: transform 0.15s;
+}
+.status-trigger[aria-expanded='true'] {
+  border-color: var(--cobalt);
+  box-shadow: inset 0 -2px 0 var(--cobalt);
+}
+.status-trigger[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+.status-trigger-empty span {
+  color: var(--muted);
+}
+.status-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 30;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  box-shadow: var(--shadow);
+}
+.status-options:focus {
+  outline: none;
+}
+.status-options-up {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+.status-options li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.status-options li.is-active {
+  background: var(--paper-2);
+}
+.status-options li[aria-selected='true'] {
+  color: var(--cobalt);
+}
+.status-options:focus-visible li.is-active {
+  box-shadow: inset 0 0 0 2px var(--cobalt);
+}
+
+/* ---------- segmented control ---------- */
+.segmented {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+}
+.segmented button {
+  height: 37px;
+  padding: 0 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.segmented button + button {
+  border-left: 1.5px solid var(--ink);
+}
+.segmented button:hover {
+  background: var(--paper-2);
+}
+.segmented button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.header-counts {
+  font-variant-numeric: tabular-nums;
+}
+.header-counts b {
+  color: var(--ink);
+}
+
+/* ---------- search ---------- */
+.search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.search-bar .segmented button {
+  height: 41px;
+}
+.search-input {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+.search-input svg {
+  position: absolute;
+  top: 12px;
+  left: 0.85rem;
+  color: var(--muted);
+}
+.search-input .input {
+  padding-left: 2.6rem;
+}
+.results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.result {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.result-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.result-error {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--danger);
+}
+.result-skeleton .bar {
+  display: block;
+  width: 55%;
+  height: 0.8rem;
+  margin: 0.35rem 0;
+  background: var(--paper-2);
+}
+.result-skeleton .bar-short {
+  width: 30%;
+}
+.search-alert {
+  align-items: center;
+  margin-top: 1rem;
+}
+.search-alert span {
+  flex: 1;
+}
+.btn-sm {
+  height: 32px;
+  padding: 0 0.75rem;
+}
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+}
+
 /* ---------- table ---------- */
 .table-wrap {
   overflow-x: auto;
@@ -840,6 +1129,29 @@ select.input {
     grid-area: actions;
     width: auto;
     padding-top: 0.4rem;
+  }
+  .result {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+  .result-action {
+    grid-column: 2;
+    flex-wrap: wrap;
+  }
+  .title-detail {
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .title-detail::before {
+    width: 80px;
+  }
+  .cover {
+    width: 80px;
+  }
+  .cover-sm {
+    width: 56px;
+  }
+  .header-actions {
+    width: 100%;
   }
   .topbar-user > span {
     display: none;

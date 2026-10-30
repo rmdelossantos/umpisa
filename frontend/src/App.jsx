@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import LogoutPage from './pages/LogoutPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
+import SearchPage from './pages/SearchPage.jsx'
 import UsersPage from './pages/UsersPage.jsx'
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         }
       >
         <Route index element={<HomePage />} />
+        <Route path="search" element={<SearchPage />} />
         <Route
           path="users"
           element={
