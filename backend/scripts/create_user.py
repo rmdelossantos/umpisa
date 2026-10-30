@@ -2,7 +2,7 @@
 
 Usage:
     docker compose exec backend python -m scripts.create_user \
-        --email a@b.c --username admin --first-name Ada --last-name Admin
+        --email a@b.c --username admin --first-name Ada --last-name Admin --role admin
 
 Prompts for the password (getpass) so it never lands in shell history.
 """
@@ -24,6 +24,7 @@ def main() -> int:
     parser.add_argument("--first-name", required=True)
     parser.add_argument("--last-name", required=True)
     parser.add_argument("--birthdate", help="YYYY-MM-DD")
+    parser.add_argument("--role", choices=["user", "admin"], default="user")
     args = parser.parse_args()
 
     password = getpass.getpass("Password: ")
@@ -48,8 +49,8 @@ def main() -> int:
         if service.email_or_username_taken(db, data.email, data.username):
             print(f"Email {data.email} or username {data.username} already exists", file=sys.stderr)
             return 1
-        user = service.create_user(db, data)
-    print(f"Created user {user.id} <{user.email}>")
+        user = service.create_user(db, data, role=args.role)
+    print(f"Created {user.role} {user.id} <{user.email}>")
     return 0
 
 

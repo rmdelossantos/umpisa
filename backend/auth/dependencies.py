@@ -7,6 +7,7 @@ from user.models import User
 
 COOKIE_NAME = "access_token"
 ACTIVE = "active"
+ADMIN = "admin"
 
 
 def get_current_user(
@@ -17,4 +18,10 @@ def get_current_user(
     user = db.get(User, user_id) if user_id is not None else None
     if user is None or user.status != ACTIVE:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Not authenticated")
+    return user
+
+
+def require_admin(user: User = Depends(get_current_user)) -> User:
+    if user.role != ADMIN:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Admins only")
     return user

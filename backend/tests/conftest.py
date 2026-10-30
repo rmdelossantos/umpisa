@@ -48,19 +48,30 @@ def client(session_factory):
 
 @pytest.fixture
 def make_user(session_factory):
-    def _make(email="ana@example.com", username="ana", password=PASSWORD):
+    def _make(email="ana@example.com", username="ana", password=PASSWORD, role="user"):
         data = UserCreate(
             email=email, username=username, password=password, first_name="Ana", last_name="Cruz"
         )
         with session_factory() as db:
-            return service.create_user(db, data)
+            return service.create_user(db, data, role=role)
 
     return _make
 
 
 @pytest.fixture
 def logged_in_client(client, make_user):
-    make_user()
+    """Logged in as ana, an admin."""
+    make_user(role="admin")
     res = client.post("/api/v1/auth/login", json={"email": "ana@example.com", "password": PASSWORD})
     assert res.status_code == 200
     return client
+
+
+@pytest.fixture
+def user_client(client, make_user):
+    """Logged in as ana, a regular user."""
+    make_user(role="user")
+    res = client.post("/api/v1/auth/login", json={"email": "ana@example.com", "password": PASSWORD})
+    assert res.status_code == 200
+    return client
+
