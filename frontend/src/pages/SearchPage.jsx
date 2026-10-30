@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import Cover from '../../components/Cover.jsx'
-import { AlertIcon, SearchIcon } from '../../components/Icons.jsx'
-import StatusSelect from '../../components/StatusSelect.jsx'
-import { api } from '../api.js'
-import { useAuth } from '../auth/AuthContext.jsx'
-import { entryKey, metaLine } from '../status.js'
+import Cover from '@/components/ui/Cover.jsx'
+import { AlertIcon, SearchIcon } from '@/components/ui/Icons.jsx'
+import StatusSelect from '@/components/shelf/StatusSelect.jsx'
+import { api } from '@/api.js'
+import { useAuth } from '@/auth/AuthContext.jsx'
+import { entryKey, metaLine } from '@/status.js'
 
 const TYPES = [
   { value: 'anime', label: 'Anime' },

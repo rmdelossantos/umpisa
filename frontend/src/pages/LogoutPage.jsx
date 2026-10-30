@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth/AuthContext.jsx'
+import { useAuth } from '@/auth/AuthContext.jsx'
 
 // Visiting /logout directly logs out and lands on the login page
 export default function LogoutPage() {

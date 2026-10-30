@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { AlertIcon, CheckIcon, EyeIcon, EyeOffIcon } from '../../components/Icons.jsx'
-import Brand from '../../components/Brand.jsx'
-import { api } from '../api.js'
-import { useAuth } from '../auth/AuthContext.jsx'
+import { AlertIcon, CheckIcon, EyeIcon, EyeOffIcon } from '@/components/ui/Icons.jsx'
+import Brand from '@/components/layout/Brand.jsx'
+import { api } from '@/api.js'
+import { useAuth } from '@/auth/AuthContext.jsx'
 
 // The login hero's shelf: one spine per list state, in the scheme's spine inks on an ink ground
 const VERMILION = { bg: 'var(--vermilion)', fg: 'var(--on-vermilion)' }

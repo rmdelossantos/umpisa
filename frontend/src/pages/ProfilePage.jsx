@@ -1,6 +1,6 @@
-import Spine from '../../components/Spine.jsx'
-import { useAuth } from '../auth/AuthContext.jsx'
-import { displayName, formatDate } from '../format.js'
+import Spine from '@/components/shelf/Spine.jsx'
+import { useAuth } from '@/auth/AuthContext.jsx'
+import { displayName, formatDate } from '@/format.js'
 
 export default function ProfilePage() {
   const { user } = useAuth()

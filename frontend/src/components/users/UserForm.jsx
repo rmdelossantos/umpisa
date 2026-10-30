@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AlertIcon } from './Icons.jsx'
+import { AlertIcon } from '@/components/ui/Icons.jsx'
 
 const EMPTY = {
   email: '',

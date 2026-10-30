@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import ConfirmDialog from '../../components/ConfirmDialog.jsx'
-import { AlertIcon, CheckIcon, PlusIcon } from '../../components/Icons.jsx'
-import UserForm from '../../components/UserForm.jsx'
-import UserList from '../../components/UserList.jsx'
-import { api } from '../api.js'
-import { useAuth } from '../auth/AuthContext.jsx'
-import { displayName } from '../format.js'
+import ConfirmDialog from '@/components/users/ConfirmDialog.jsx'
+import { AlertIcon, CheckIcon, PlusIcon } from '@/components/ui/Icons.jsx'
+import UserForm from '@/components/users/UserForm.jsx'
+import UserList from '@/components/users/UserList.jsx'
+import { api } from '@/api.js'
+import { useAuth } from '@/auth/AuthContext.jsx'
+import { displayName } from '@/format.js'
 
 const count = (n, noun) => (
   <>

@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import AdminRoute from '../components/AdminRoute.jsx'
-import AppLayout from '../components/AppLayout.jsx'
-import ProtectedRoute from '../components/ProtectedRoute.jsx'
-import HomePage from './pages/HomePage.jsx'
-import LoginPage from './pages/LoginPage.jsx'
-import LogoutPage from './pages/LogoutPage.jsx'
-import ProfilePage from './pages/ProfilePage.jsx'
-import SearchPage from './pages/SearchPage.jsx'
-import UsersPage from './pages/UsersPage.jsx'
+import AdminRoute from '@/components/layout/AdminRoute.jsx'
+import AppLayout from '@/components/layout/AppLayout.jsx'
+import ProtectedRoute from '@/components/layout/ProtectedRoute.jsx'
+import HomePage from '@/pages/HomePage.jsx'
+import LoginPage from '@/pages/LoginPage.jsx'
+import LogoutPage from '@/pages/LogoutPage.jsx'
+import ProfilePage from '@/pages/ProfilePage.jsx'
+import SearchPage from '@/pages/SearchPage.jsx'
+import UsersPage from '@/pages/UsersPage.jsx'
 
 export default function App() {
   return (

@@ -1,4 +1,4 @@
-import { displayName, initials } from '../src/format.js'
+import { displayName, initials } from '@/format.js'
 
 export const TONES = ['vermilion', 'cobalt', 'mustard', 'ink']
 // Tall spines vary in height per id, like a shelf of mixed series

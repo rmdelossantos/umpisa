@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { metaLine } from '../src/status.js'
-import Cover from './Cover.jsx'
-import { AlertIcon, CloseIcon } from './Icons.jsx'
-import { HEIGHTS, TONES } from './Spine.jsx'
-import StatusSelect from './StatusSelect.jsx'
+import { metaLine } from '@/status.js'
+import Cover from '@/components/ui/Cover.jsx'
+import { AlertIcon, CloseIcon } from '@/components/ui/Icons.jsx'
+import { HEIGHTS, TONES } from '@/components/shelf/Spine.jsx'
+import StatusSelect from '@/components/shelf/StatusSelect.jsx'
 
 const MEDIA_MARK = { anime: 'A', manga: 'M' }
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertIcon, SearchIcon } from '../../components/Icons.jsx'
-import TitleShelf from '../../components/TitleShelf.jsx'
-import { api } from '../api.js'
-import { useAuth } from '../auth/AuthContext.jsx'
-import { STATUSES, statusLabel } from '../status.js'
+import { AlertIcon, SearchIcon } from '@/components/ui/Icons.jsx'
+import TitleShelf from '@/components/shelf/TitleShelf.jsx'
+import { api } from '@/api.js'
+import { useAuth } from '@/auth/AuthContext.jsx'
+import { STATUSES, statusLabel } from '@/status.js'
 
 const FILTERS = [
   { value: 'all', label: 'All' },

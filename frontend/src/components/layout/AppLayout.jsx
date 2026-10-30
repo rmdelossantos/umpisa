@@ -1,8 +1,8 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from '../src/auth/AuthContext.jsx'
-import { displayName } from '../src/format.js'
-import Brand from './Brand.jsx'
-import { LogoutIcon } from './Icons.jsx'
+import { useAuth } from '@/auth/AuthContext.jsx'
+import { displayName } from '@/format.js'
+import Brand from '@/components/layout/Brand.jsx'
+import { LogoutIcon } from '@/components/ui/Icons.jsx'
 
 const TABS = [
   { to: '/', label: 'Shelf', end: true },

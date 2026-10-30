@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
-import { STATUSES, statusLabel } from '../src/status.js'
-import { CheckIcon, ChevronDownIcon } from './Icons.jsx'
+import { STATUSES, statusLabel } from '@/status.js'
+import { CheckIcon, ChevronDownIcon } from '@/components/ui/Icons.jsx'
 
 const MENU_GAP = 4
 

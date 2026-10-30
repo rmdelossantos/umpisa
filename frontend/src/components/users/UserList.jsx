@@ -1,6 +1,6 @@
-import { displayName, formatDate } from '../src/format.js'
-import { EditIcon, TrashIcon } from './Icons.jsx'
-import Spine from './Spine.jsx'
+import { displayName, formatDate } from '@/format.js'
+import { EditIcon, TrashIcon } from '@/components/ui/Icons.jsx'
+import Spine from '@/components/shelf/Spine.jsx'
 
 export default function UserList({ users, currentUserId, onEdit, onDelete }) {
   if (users.length === 0) return <p className="empty">No users yet. Add the first one with “Add user”.</p>
