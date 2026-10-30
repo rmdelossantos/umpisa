@@ -6,6 +6,7 @@ Usage:
 
 Prompts for the password (getpass) so it never lands in shell history.
 """
+
 import argparse
 import getpass
 import sys

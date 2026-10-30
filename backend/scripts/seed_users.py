@@ -8,6 +8,7 @@ Every seeded user gets the same password: SEED_PASSWORD if set, otherwise prompt
 so no password is stored in the repo. Users whose email or username already exists are skipped,
 so it is safe to run more than once.
 """
+
 import argparse
 import getpass
 import json

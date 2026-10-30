@@ -3,6 +3,7 @@
 Usage:
     docker compose exec backend python -m scripts.set_role --email a@b.c --role admin
 """
+
 import argparse
 import sys
 

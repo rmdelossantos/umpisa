@@ -59,9 +59,7 @@ def login(request: Request, payload: LoginRequest, response: Response, db: Sessi
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(response: Response):
-    response.delete_cookie(
-        COOKIE_NAME, path="/api", httponly=True, secure=settings.cookie_secure, samesite="lax"
-    )
+    response.delete_cookie(COOKIE_NAME, path="/api", httponly=True, secure=settings.cookie_secure, samesite="lax")
 
 
 @router.get("/me", response_model=UserRead)

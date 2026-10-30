@@ -113,6 +113,7 @@ def test_admin_deletes_user(logged_in_client):
 def test_deleted_users_session_ends(client, logged_in_client):
     bo = _create(logged_in_client)
     from auth.security import create_access_token
+
     token = create_access_token(bo["id"])
     logged_in_client.delete(f"/api/v1/users/{bo['id']}")
     client.cookies.clear()

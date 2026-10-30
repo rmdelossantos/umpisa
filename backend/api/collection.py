@@ -38,9 +38,9 @@ def add_entry(
     try:
         item = catalog.get(payload.media_type, payload.anilist_id)
     except CatalogNotFound:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, f"No {payload.media_type} with that id")
+        raise HTTPException(status.HTTP_404_NOT_FOUND, f"No {payload.media_type} with that id") from None
     except CatalogUnavailable:
-        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN)
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN) from None
     return service.add_entry(db, user.id, item, payload.status)
 
 

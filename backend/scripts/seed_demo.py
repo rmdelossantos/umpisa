@@ -4,6 +4,7 @@ Runs on every container start (see the Dockerfile CMD) and does nothing unless S
 Accounts come from scripts/seed_users.json, all with DEMO_PASSWORD. Existing accounts are skipped,
 and juan's starter shelf is only added the run that creates juan, so titles he removes stay removed.
 """
+
 import json
 import sys
 from pathlib import Path

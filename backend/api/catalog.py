@@ -18,7 +18,7 @@ def popular(
     try:
         return catalog.popular(type, page)
     except CatalogUnavailable:
-        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN)
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN) from None
 
 
 @router.get("/search", response_model=CatalogPage)
@@ -31,4 +31,4 @@ def search(
     try:
         return catalog.search(type, q, page)
     except CatalogUnavailable:
-        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN)
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, CATALOG_DOWN) from None

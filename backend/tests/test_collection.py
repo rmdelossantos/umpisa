@@ -4,7 +4,9 @@ from tests.conftest import PASSWORD
 
 
 def add(client, anilist_id=154587, status="planning", media_type="anime"):
-    return client.post("/api/v1/collection", json={"media_type": media_type, "anilist_id": anilist_id, "status": status})
+    return client.post(
+        "/api/v1/collection", json={"media_type": media_type, "anilist_id": anilist_id, "status": status}
+    )
 
 
 def test_collection_requires_auth(client, catalog):

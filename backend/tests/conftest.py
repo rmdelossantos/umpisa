@@ -9,9 +9,9 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 import collection.models  # noqa: F401
+import user.models  # noqa: F401
 from catalog.anilist import CatalogNotFound, CatalogUnavailable, get_catalog
 from catalog.schemas import CatalogItem, CatalogPage
-import user.models  # noqa: F401
 from database import Base, enable_sqlite_foreign_keys, get_db
 from main import app
 from rate_limit import limiter
@@ -28,9 +28,7 @@ def reset_rate_limits():
 
 @pytest.fixture
 def session_factory():
-    engine = create_engine(
-        "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
-    )
+    engine = create_engine("sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool)
     enable_sqlite_foreign_keys(engine)
     Base.metadata.create_all(engine)
     return sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
@@ -53,9 +51,7 @@ def client(session_factory):
 @pytest.fixture
 def make_user(session_factory):
     def _make(email="ana@example.com", username="ana", password=PASSWORD, role="user"):
-        data = UserCreate(
-            email=email, username=username, password=password, first_name="Ana", last_name="Cruz"
-        )
+        data = UserCreate(email=email, username=username, password=password, first_name="Ana", last_name="Cruz")
         with session_factory() as db:
             return service.create_user(db, data, role=role)
 

@@ -49,15 +49,23 @@ def test_existing_user_is_skipped_not_overwritten(session_factory, make_user):
 
 def test_invalid_file_seeds_nothing(tmp_path, session_factory):
     bad = tmp_path / "users.json"
-    bad.write_text(json.dumps([
-        {"email": "ok@example.com", "username": "okay", "first_name": "O", "last_name": "K"},
-        {"email": "not-an-email", "username": "bad", "first_name": "B", "last_name": "D"},
-    ]))
+    bad.write_text(
+        json.dumps(
+            [
+                {"email": "ok@example.com", "username": "okay", "first_name": "O", "last_name": "K"},
+                {"email": "not-an-email", "username": "bad", "first_name": "B", "last_name": "D"},
+            ]
+        )
+    )
     with pytest.raises(ValueError, match="entry 1"):
         load_entries(bad, PASSWORD)
 
-    bad.write_text(json.dumps([
-        {"email": "ok@example.com", "username": "okay", "first_name": "O", "last_name": "K", "role": "root"},
-    ]))
+    bad.write_text(
+        json.dumps(
+            [
+                {"email": "ok@example.com", "username": "okay", "first_name": "O", "last_name": "K", "role": "root"},
+            ]
+        )
+    )
     with pytest.raises(ValueError, match="unknown role"):
         load_entries(bad, PASSWORD)
