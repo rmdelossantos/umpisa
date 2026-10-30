@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { AlertIcon, CheckIcon, EyeIcon, EyeOffIcon } from '../../components/Icons.jsx'
 import Brand from '../../components/Brand.jsx'
+import { api } from '../api.js'
 import { useAuth } from '../auth/AuthContext.jsx'
 
 // The login hero's shelf: one spine per list state, in the scheme's spine inks on an ink ground
@@ -27,6 +28,22 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
+
+  const [demo, setDemo] = useState(null)
+
+  // Fresh installs seed demo accounts; the backend says which, so reviewers can log in right away
+  useEffect(() => {
+    api
+      .demoInfo()
+      .then((info) => info.enabled && setDemo(info))
+      .catch(() => {})
+  }, [])
+
+  function fillDemoAccount(account) {
+    setEmail(account.email)
+    setPassword(demo.password)
+    setError(null)
+  }
 
   const from = location.state?.from?.pathname ?? '/'
   const loggedOut = location.state?.loggedOut && !error
@@ -127,6 +144,26 @@ export default function LoginPage() {
               {submitting ? 'Logging in…' : 'Log in'}
             </button>
           </form>
+
+          {demo && (
+            <section className="demo-accounts" aria-label="Demo accounts">
+              <p>
+                Demo accounts, password <code>{demo.password}</code>
+              </p>
+              <ul>
+                {demo.accounts.map((account) => (
+                  <li key={account.email}>
+                    <span>
+                      {account.email} <span className="muted">({account.role})</span>
+                    </span>
+                    <button type="button" className="btn btn-ghost btn-sm" onClick={() => fillDemoAccount(account)}>
+                      Use
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
       </section>
     </div>

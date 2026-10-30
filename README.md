@@ -8,20 +8,31 @@
 | Database | SQLite (Docker volume `sqlite-data`)        |
 | Runtime  | Docker Compose                              |
 
-## Run with Docker
+## Quickstart
+
+Requires Docker. No `.env` file or setup step is needed.
 
 ```bash
-cp .env.example .env
-# set JWT_SECRET in .env:
-python3 -c "import secrets; print(secrets.token_urlsafe(32))"
-
 docker compose up --build
 ```
 
-- App: http://localhost:3000 (nginx proxies `/api` to the backend)
-- API docs: http://localhost:3000/api/docs
+Open http://localhost:3000 and log in with a demo account (the login page lists them too):
 
-The backend port isn't published in this mode: only nginx can reach it, because the backend trusts nginx's `X-Forwarded-For` header to find the client IP for rate limiting.
+| Email | Password | Role |
+|---|---|---|
+| `juan@example.com` | `umpisa-demo` | user, with a starter shelf of 8 titles |
+| `admin@example.com` | `umpisa-demo` | admin (adds the Users page) |
+
+- API docs: http://localhost:3000/api/docs
+- Port 3000 taken? `APP_PORT=3100 docker compose up --build`
+- What happens on first start:
+  - Migrations run (`alembic upgrade head`).
+  - A JWT signing secret is generated into the data volume, unless you set `JWT_SECRET` (at least 32 characters).
+  - The accounts in `backend/scripts/seed_users.json` are created with `DEMO_PASSWORD`. Restarts skip existing accounts.
+  - Turn the demo accounts off with `SEED_DEMO=false`. They're for local evaluation only; don't use them for a real deployment. Changing a demo user's password in the app doesn't change the hint on the login page.
+- Optional overrides go in a `.env` file. See `.env.example`.
+
+The backend port isn't published in this mode. Only nginx can reach it, because the backend trusts nginx's `X-Forwarded-For` header to find the client IP for rate limiting.
 
 Dev mode with hot reload (Vite on :5173, uvicorn `--reload`, backend also on :8000):
 
@@ -29,18 +40,14 @@ Dev mode with hot reload (Vite on :5173, uvicorn `--reload`, backend also on :80
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
-Migrations run automatically when the backend container starts (`alembic upgrade head`).
+## Accounts
 
-## First login
-
-There's no sign-up page. Create the first admin from the CLI (prompts for the password):
+There's no sign-up page. Admins add, edit and delete users from the **Users** page. To create an account from the CLI (it prompts for the password):
 
 ```bash
 docker compose exec backend python -m scripts.create_user \
-  --email admin@example.com --username admin --first-name Ada --last-name Admin --role admin
+  --email ana@example.com --username ana --first-name Ana --last-name Cruz --role admin
 ```
-
-Then open http://localhost:3000/login. Admins add, edit and delete users from the **Users** page.
 
 To promote (or demote) an existing account:
 
@@ -118,8 +125,8 @@ Counters are kept in memory, so **run the backend with a single uvicorn worker**
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-dev.txt
-cp .env.example .env              # set JWT_SECRET
-alembic upgrade head
+alembic upgrade head            # a JWT secret is generated into data/.jwt_secret
+SEED_DEMO=true python -m scripts.seed_demo   # optional demo accounts
 uvicorn main:app --reload        # http://localhost:8000/api/docs
 
 # frontend (separate terminal)
