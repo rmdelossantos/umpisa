@@ -8,6 +8,11 @@
 | Database | SQLite (Docker volume `sqlite-data`)        |
 | Runtime  | Docker Compose                              |
 
+## Developer Notes
+
+- This repo was improved and completed after the live coding call.
+- This repo was written with the help of Claude
+
 ## Quickstart
 
 Requires Docker. No `.env` file or setup step is needed.
