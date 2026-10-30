@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext.jsx'
 
+// Visiting /logout directly logs out and lands on the login page
 export default function LogoutPage() {
   const { logout } = useAuth()
-  const [done, setDone] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Safe to run twice under StrictMode: logout is idempotent
-    logout().finally(() => setDone(true))
-  }, [logout])
+    logout().finally(() => navigate('/login', { replace: true, state: { loggedOut: true } }))
+  }, [logout, navigate])
 
-  return (
-    <main>
-      <h1>{done ? "You've been logged out" : 'Logging out…'}</h1>
-      {done && (
-        <p>
-          <Link to="/login">Log in again</Link>
-        </p>
-      )}
-    </main>
-  )
+  return null
 }

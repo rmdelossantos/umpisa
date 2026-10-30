@@ -34,9 +34,19 @@ export function AuthProvider({ children }) {
     throw error
   }, [])
 
+  // Keeps the sidebar and profile in sync when an admin edits their own account
+  const setCurrentUser = useCallback((user) => setState((s) => ({ ...s, user })), [])
+
   const value = useMemo(
-    () => ({ ...state, login, logout, handleUnauthorized }),
-    [state, login, logout, handleUnauthorized],
+    () => ({
+      ...state,
+      isAdmin: state.user?.role === 'admin',
+      login,
+      logout,
+      handleUnauthorized,
+      setCurrentUser,
+    }),
+    [state, login, logout, handleUnauthorized, setCurrentUser],
   )
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
