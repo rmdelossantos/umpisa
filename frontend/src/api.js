@@ -26,6 +26,7 @@ export const api = {
   createUser: (data) => request('/users', { method: 'POST', body: JSON.stringify(data) }),
   updateUser: (id, data) => request(`/users/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
   deleteUser: (id) => request(`/users/${id}`, { method: 'DELETE' }),
+  popularCatalog: (type, page = 1) => request(`/catalog/popular?type=${type}&page=${page}`),
   searchCatalog: (type, q, page = 1) =>
     request(`/catalog/search?type=${type}&q=${encodeURIComponent(q)}&page=${page}`),
   listCollection: () => request('/collection'),
