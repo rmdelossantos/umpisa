@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { metaLine } from '@/status.js'
 import Cover from '@/components/ui/Cover.jsx'
-import { AlertIcon, CloseIcon } from '@/components/ui/Icons.jsx'
+import Alert from '@/components/ui/Alert.jsx'
+import { CloseIcon } from '@/components/ui/Icons.jsx'
 import { HEIGHTS, TONES } from '@/components/shelf/Spine.jsx'
 import StatusSelect from '@/components/shelf/StatusSelect.jsx'
 
@@ -58,12 +59,7 @@ function TitleDetail({ entry, onStatus, onRemove, onClose }) {
       <div className="title-detail-body">
         <h3>{entry.title}</h3>
         <p className="person-sub">{metaLine(entry) || entry.media_type}</p>
-        {error && (
-          <div className="alert alert-error" role="alert">
-            <AlertIcon />
-            {error}
-          </div>
-        )}
+        {error && <Alert>{error}</Alert>}
         <div className="title-detail-actions">
           <StatusSelect
             id={`status-${entry.id}`}
@@ -71,15 +67,22 @@ function TitleDetail({ entry, onStatus, onRemove, onClose }) {
             mediaType={entry.media_type}
             value={entry.status}
             disabled={busy}
-            onChange={(status) => run(async () => {
-              await onStatus(entry, status)
-              setBusy(false)
-            })}
+            onChange={(status) =>
+              run(async () => {
+                await onStatus(entry, status)
+                setBusy(false)
+              })
+            }
           />
           {confirming ? (
             <span className="confirm-inline" role="group" aria-label="Confirm removal">
               <span>Remove it and its status?</span>
-              <button type="button" className="btn btn-danger" disabled={busy} onClick={() => run(() => onRemove(entry))}>
+              <button
+                type="button"
+                className="btn btn-danger"
+                disabled={busy}
+                onClick={() => run(() => onRemove(entry))}
+              >
                 Remove
               </button>
               <button type="button" className="btn btn-ghost" disabled={busy} onClick={() => setConfirming(false)}>
@@ -108,12 +111,22 @@ export default function TitleShelf({ entries, selectedId, onSelect, onStatus, on
       <ul className="shelf">
         {entries.map((e) => (
           <li key={e.id}>
-            <TitleSpine entry={e} selected={e.id === selectedId} onSelect={() => onSelect(e.id === selectedId ? null : e.id)} />
+            <TitleSpine
+              entry={e}
+              selected={e.id === selectedId}
+              onSelect={() => onSelect(e.id === selectedId ? null : e.id)}
+            />
           </li>
         ))}
       </ul>
       {selected && (
-        <TitleDetail key={selected.id} entry={selected} onStatus={onStatus} onRemove={onRemove} onClose={() => onSelect(null)} />
+        <TitleDetail
+          key={selected.id}
+          entry={selected}
+          onStatus={onStatus}
+          onRemove={onRemove}
+          onClose={() => onSelect(null)}
+        />
       )}
     </>
   )

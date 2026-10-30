@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-import { AlertIcon, CheckIcon, EyeIcon, EyeOffIcon } from '@/components/ui/Icons.jsx'
+import Alert from '@/components/ui/Alert.jsx'
+import { EyeIcon, EyeOffIcon } from '@/components/ui/Icons.jsx'
 import Brand from '@/components/layout/Brand.jsx'
 import { api } from '@/api.js'
 import { useAuth } from '@/auth/AuthContext.jsx'
@@ -70,7 +71,7 @@ export default function LoginPage() {
         <Brand />
         <div>
           <h2>Every anime and manga you love, on one shelf.</h2>
-          <p>Track what you plan to watch, what you're reading now, and everything you've finished.</p>
+          <p>Track what you plan to watch, what you’re reading now, and everything you’ve finished.</p>
         </div>
         <ul className="auth-shelf" aria-hidden="true">
           {HERO_SHELF.map(({ label, tone, width, height }, i) => (
@@ -89,18 +90,8 @@ export default function LoginPage() {
             <p className="muted">Use the email and password your admin set up for you.</p>
           </div>
 
-          {loggedOut && (
-            <div className="alert alert-success" role="status">
-              <CheckIcon />
-              You've been logged out.
-            </div>
-          )}
-          {error && (
-            <div className="alert alert-error" role="alert">
-              <AlertIcon />
-              {error}
-            </div>
-          )}
+          {loggedOut && <Alert tone="success">You’ve been logged out.</Alert>}
+          {error && <Alert>{error}</Alert>}
 
           <form onSubmit={handleSubmit}>
             <div className="field">
@@ -114,6 +105,8 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                // The login form is the page's only task, so it starts focused
+                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus
               />
             </div>

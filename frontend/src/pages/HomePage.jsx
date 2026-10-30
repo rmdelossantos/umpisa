@@ -44,7 +44,9 @@ function EmptyLibrary() {
         ))}
       </ul>
       <h2>Your shelf is empty</h2>
-      <p>Search for an anime or manga, then file it as planning, in progress, or done. It'll stand here on the shelf.</p>
+      <p>
+        Search for an anime or manga, then file it as planning, in progress, or done. It’ll stand here on the shelf.
+      </p>
       <Link to="/search" className="btn btn-primary">
         <SearchIcon size={18} />
         Find titles

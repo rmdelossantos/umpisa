@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import ConfirmDialog from '@/components/users/ConfirmDialog.jsx'
-import { AlertIcon, CheckIcon, PlusIcon } from '@/components/ui/Icons.jsx'
+import Alert from '@/components/ui/Alert.jsx'
+import { PlusIcon } from '@/components/ui/Icons.jsx'
+import PageHeader from '@/components/ui/PageHeader.jsx'
+import Section from '@/components/ui/Section.jsx'
 import UserForm from '@/components/users/UserForm.jsx'
 import UserList from '@/components/users/UserList.jsx'
 import { api } from '@/api.js'
@@ -70,43 +73,31 @@ export default function UsersPage() {
 
   return (
     <div className="page">
-      <div className="page-header">
-        <div>
-          <h1>Users</h1>
-          <p>Add, edit and remove the people who can log in to Umpisa.</p>
-          {users.length > 0 && (
-            <p className="header-counts">
-              {count(users.length, 'account')} · <b>{users.filter((u) => u.status === 'active').length}</b> active ·{' '}
-              {count(users.filter((u) => u.role === 'admin').length, 'admin')}
-            </p>
-          )}
-        </div>
-        {!panel && (
-          <button type="button" className="btn btn-primary" onClick={() => openPanel({ mode: 'add' })}>
-            <PlusIcon size={18} />
-            Add user
-          </button>
+      <PageHeader
+        title="Users"
+        subtitle="Add, edit and remove the people who can log in to Umpisa."
+        actions={
+          !panel && (
+            <button type="button" className="btn btn-primary" onClick={() => openPanel({ mode: 'add' })}>
+              <PlusIcon size={18} />
+              Add user
+            </button>
+          )
+        }
+      >
+        {users.length > 0 && (
+          <p className="header-counts">
+            {count(users.length, 'account')} · <b>{users.filter((u) => u.status === 'active').length}</b> active ·{' '}
+            {count(users.filter((u) => u.role === 'admin').length, 'admin')}
+          </p>
         )}
-      </div>
+      </PageHeader>
 
-      {error && (
-        <div className="alert alert-error" role="alert">
-          <AlertIcon />
-          {error}
-        </div>
-      )}
-      {notice && (
-        <div className="alert alert-success" role="status">
-          <CheckIcon />
-          {notice}
-        </div>
-      )}
+      {error && <Alert>{error}</Alert>}
+      {notice && <Alert tone="success">{notice}</Alert>}
 
       {panel && (
-        <section className="panel">
-          <div className="section-head">
-            <h2>{panel.mode === 'edit' ? `Edit ${displayName(panel.user)}` : 'New user'}</h2>
-          </div>
+        <Section className="panel" title={panel.mode === 'edit' ? `Edit ${displayName(panel.user)}` : 'New user'}>
           <UserForm
             // Remount when switching users so the form resets to that user's values
             key={panel.mode === 'edit' ? panel.user.id : 'new'}
@@ -115,21 +106,17 @@ export default function UsersPage() {
             onSubmit={panel.mode === 'edit' ? handleUpdate : handleCreate}
             onCancel={() => setPanel(null)}
           />
-        </section>
+        </Section>
       )}
 
-      <section className="section">
-        <div className="section-head">
-          <h2>All users</h2>
-          <span className="count">{users.length}</span>
-        </div>
+      <Section title="All users" aside={<span className="count">{users.length}</span>}>
         <UserList
           users={users}
           currentUserId={me.id}
           onEdit={(u) => openPanel({ mode: 'edit', user: u })}
           onDelete={setDeleting}
         />
-      </section>
+      </Section>
 
       <ConfirmDialog
         open={Boolean(deleting)}
@@ -141,8 +128,8 @@ export default function UsersPage() {
       >
         {deleting && (
           <p>
-            <strong>{displayName(deleting)}</strong> (@{deleting.username}) will lose access immediately. This
-            can't be undone.
+            <strong>{displayName(deleting)}</strong> (@{deleting.username}) will lose access immediately. This can’t be
+            undone.
           </p>
         )}
       </ConfirmDialog>

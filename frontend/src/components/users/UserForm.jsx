@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AlertIcon } from '@/components/ui/Icons.jsx'
+import Alert from '@/components/ui/Alert.jsx'
 
 const EMPTY = {
   email: '',
@@ -64,12 +64,7 @@ export default function UserForm({ user, isSelf = false, onSubmit, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      {error && (
-        <div className="alert alert-error" role="alert" style={{ marginBottom: '1rem' }}>
-          <AlertIcon />
-          {error}
-        </div>
-      )}
+      {error && <Alert className="form-alert">{error}</Alert>}
       <div className="form-grid">
         {FIELDS.map(({ key, label, type = 'text', ...rest }) => {
           const required = rest.required && !(editing && key === 'password')
@@ -112,7 +107,7 @@ export default function UserForm({ user, isSelf = false, onSubmit, onCancel }) {
           </>
         )}
       </div>
-      {editing && isSelf && <p className="muted hint">You can't change your own role or status.</p>}
+      {editing && isSelf && <p className="muted hint">You can’t change your own role or status.</p>}
       <div className="form-actions">
         {onCancel && (
           <button type="button" className="btn btn-ghost" onClick={onCancel}>

@@ -1,4 +1,5 @@
 import Spine from '@/components/shelf/Spine.jsx'
+import Section from '@/components/ui/Section.jsx'
 import { useAuth } from '@/auth/AuthContext.jsx'
 import { displayName, formatDate } from '@/format.js'
 
@@ -28,10 +29,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <section className="section">
-        <div className="section-head">
-          <h2>My account</h2>
-        </div>
+      <Section title="My account">
         <dl className="details">
           {rows.map(([label, value]) => (
             <div key={label}>
@@ -40,7 +38,7 @@ export default function ProfilePage() {
             </div>
           ))}
         </dl>
-      </section>
+      </Section>
     </div>
   )
 }

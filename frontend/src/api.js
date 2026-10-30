@@ -10,7 +10,7 @@ async function request(path, options = {}) {
     const message =
       res.status === 429
         ? `Too many requests. Try again in ${res.headers.get('Retry-After') ?? 'a few '}s.`
-        : (typeof body.detail === 'string' ? body.detail : null) ?? `Request failed: ${res.status}`
+        : ((typeof body.detail === 'string' ? body.detail : null) ?? `Request failed: ${res.status}`)
     const error = new Error(message)
     error.status = res.status
     throw error
@@ -28,8 +28,7 @@ export const api = {
   updateUser: (id, data) => request(`/users/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
   deleteUser: (id) => request(`/users/${id}`, { method: 'DELETE' }),
   popularCatalog: (type, page = 1) => request(`/catalog/popular?type=${type}&page=${page}`),
-  searchCatalog: (type, q, page = 1) =>
-    request(`/catalog/search?type=${type}&q=${encodeURIComponent(q)}&page=${page}`),
+  searchCatalog: (type, q, page = 1) => request(`/catalog/search?type=${type}&q=${encodeURIComponent(q)}&page=${page}`),
   listCollection: () => request('/collection'),
   addToCollection: (data) => request('/collection', { method: 'POST', body: JSON.stringify(data) }),
   updateEntry: (id, status) => request(`/collection/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),

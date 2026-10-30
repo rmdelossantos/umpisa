@@ -105,6 +105,8 @@ export default function StatusSelect({ id, mediaType, value, onChange, disabled,
           onKeyDown={onListKeyDown}
         >
           {STATUSES.map((status, i) => (
+            // Keyboard selection is handled on the listbox via aria-activedescendant (ARIA listbox pattern)
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <li
               key={status}
               id={`${listId}-${status}`}

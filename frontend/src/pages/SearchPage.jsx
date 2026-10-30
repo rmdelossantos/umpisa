@@ -132,7 +132,7 @@ export default function SearchPage() {
       <div className="page-header">
         <div>
           <h1>Find titles</h1>
-          <p>Browse what's popular or search by title, then file it straight onto your shelf.</p>
+          <p>Browse what’s popular or search by title, then file it straight onto your shelf.</p>
         </div>
       </div>
 
@@ -157,7 +157,6 @@ export default function SearchPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoComplete="off"
-            autoFocus
           />
         </div>
       </div>
@@ -183,7 +182,9 @@ export default function SearchPage() {
         )}
 
         {searching && results.length === 0 && !loading && !error && (
-          <p className="shelf-empty">No {noun} matches “{q}”. Check the spelling, or try the English or romaji title.</p>
+          <p className="shelf-empty">
+            No {noun} matches “{q}”. Check the spelling, or try the English or romaji title.
+          </p>
         )}
 
         <ul className="results" aria-busy={loading}>
