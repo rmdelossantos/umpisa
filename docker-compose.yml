@@ -3,7 +3,12 @@ services:
     build: ./backend
     environment:
       DATABASE_URL: sqlite:////app/data/app.db
-      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env (see .env.example)}
+      # Optional: when unset, a secret is generated once and kept in the data volume
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_SECRET_FILE: /app/data/.jwt_secret
+      # Demo accounts (see README) are created on first start; set SEED_DEMO=false to skip
+      SEED_DEMO: ${SEED_DEMO:-true}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-umpisa-demo}
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
     volumes:
       - sqlite-data:/app/data
@@ -13,13 +18,14 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
+      start_period: 20s
 
   frontend:
     build:
       context: ./frontend
       target: prod
     ports:
-      - "3000:80"
+      - "${APP_PORT:-3000}:80"
     depends_on:
       backend:
         condition: service_healthy
