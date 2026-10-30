@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     access_token_ttl_minutes: int = 30
     cookie_secure: bool = False  # set true when served over HTTPS
 
+    anilist_url: str = "https://graphql.anilist.co"
+
     rate_limit_enabled: bool = True
     rate_limit_default: str = "120/minute"  # every endpoint, per IP
     rate_limit_login: str = "5/minute"  # /auth/login, per IP, every attempt
