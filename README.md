@@ -33,14 +33,29 @@ Migrations run automatically when the backend container starts (`alembic upgrade
 
 ## First login
 
-There's no sign-up page. Create the first account from the CLI (prompts for the password):
+There's no sign-up page. Create the first admin from the CLI (prompts for the password):
 
 ```bash
 docker compose exec backend python -m scripts.create_user \
-  --email admin@example.com --username admin --first-name Ada --last-name Admin
+  --email admin@example.com --username admin --first-name Ada --last-name Admin --role admin
 ```
 
-Then open http://localhost:3000/login. Logged-in users can add more users from the home page.
+Then open http://localhost:3000/login. Admins add, edit and delete users from the **Users** page.
+
+To promote (or demote) an existing account:
+
+```bash
+docker compose exec backend python -m scripts.set_role --email someone@example.com --role admin
+```
+
+### Roles
+
+| | `user` | `admin` |
+|---|---|---|
+| Log in, Shelf, Search, My account | ✓ | ✓ |
+| **Users** page and `/api/v1/users` (list, add, edit, delete) | — (403) | ✓ |
+
+Admins can't delete their own account or change their own role or status, so the app can't lose its last admin by accident.
 
 ### Seeding the initial users
 
@@ -65,6 +80,21 @@ Users that existed before the auth migration have no usable password and can't l
 | POST | `/api/v1/auth/login` | `{email, password}` → sets the `access_token` cookie |
 | POST | `/api/v1/auth/logout` | clears the cookie |
 | GET  | `/api/v1/auth/me` | current user, or 401 |
+| GET / POST | `/api/v1/users` | admin only: list / create |
+| PATCH / DELETE | `/api/v1/users/{id}` | admin only: partial update (incl. role, status, password) / delete |
+
+## Anime and manga catalog
+
+Titles come from the public [AniList GraphQL API](https://docs.anilist.co/) (`https://graphql.anilist.co`, set by `ANILIST_URL`). Reads need no AniList account or key. The backend is the only caller, so every user shares one cache: searches are kept 10 minutes, the popular list an hour, and single titles a day. A 429 gets one retry, adult titles are always excluded, and when AniList is down these routes return 503 with a readable message.
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/api/v1/catalog/popular?type=anime\|manga&page=` | most popular first, 20 per page (pages 1–20) |
+| GET | `/api/v1/catalog/search?type=anime\|manga&q=&page=` | `q` is 2–100 characters |
+| GET / POST | `/api/v1/collection` | your shelf / add `{media_type, anilist_id, status}` |
+| PATCH / DELETE | `/api/v1/collection/{id}` | change `status` / remove (your own entries only) |
+
+`status` is `planning`, `in_progress` or `done` (shown as plan to watch/read, watching/reading, watched/read). When a title is added, the server looks it up on AniList itself and stores its title, cover, format, episode or chapter count and year with the entry, so the shelf loads from the database alone and still works when AniList is unreachable.
 
 - The token lasts 30 minutes (`ACCESS_TOKEN_TTL_MINUTES`); there's no refresh token.
 - The cookie is `HttpOnly; SameSite=Lax; Path=/api`. Set `COOKIE_SECURE=true` when serving over HTTPS.
@@ -109,18 +139,20 @@ cd backend && pytest
 ```
 backend/
   main.py          FastAPI app, rate-limit middleware, CORS, router mount at /api
-  config.py        settings (env: DATABASE_URL, JWT_SECRET, COOKIE_SECURE, RATE_LIMIT_*)
+  config.py        settings (env: DATABASE_URL, JWT_SECRET, COOKIE_SECURE, RATE_LIMIT_*, ANILIST_URL)
   database.py      engine, session, Base, get_db dependency
   rate_limit.py    slowapi limiter + per-email login failure limit
-  api/             routes: /api/health, /api/v1/auth, /api/v1/users
+  api/             routes: /api/health, /api/v1/auth, /api/v1/users, /api/v1/catalog, /api/v1/collection
   auth/            JWT encode/decode, get_current_user, login schema
   user/            user domain: models, schemas, service, password hashing
+  catalog/         AniList client (search, popular, lookup) with an in-memory cache
+  collection/      shelf entries: model, schemas, service
   migrations/      Alembic env + versions
-  scripts/         create_user CLI
+  scripts/         create_user, set_role and seed_users CLIs
   tests/           pytest (in-memory SQLite)
 frontend/
-  src/             entry, routes, api client, auth context, pages
-  components/      React components (ProtectedRoute, UserForm, UserList)
+  src/             entry, routes, api client, auth context, pages (Shelf, Search, My account, Users, Login)
+  components/      app shell, route guards, spines and shelf, status menu, user form/list, dialog, icons
   nginx.conf       prod static serving + /api proxy
 docker-compose.yml       prod-like stack
 docker-compose.dev.yml   hot-reload overrides
