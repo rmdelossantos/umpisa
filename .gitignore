@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# SQLite
+backend/data/
+*.db
+
+# Node
+node_modules/
+dist/
+
+# Env
+.env
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Claude Code (local skills/settings)
+.claude/
